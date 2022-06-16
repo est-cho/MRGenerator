@@ -33,7 +33,7 @@ if __name__ == '__main__':
     field_data = data_parser.read_field_data(data_file)
     constants = data_parser.read_constants(constant_file)
 
-    gen_mr = generator.evolve(i_mr, field_data, constant_file)
+    gen_mr = generator.evolve(i_mr, field_data, constants)
     converter.write_mr_to_csv(gen_mr)
 
     print('end of program')
