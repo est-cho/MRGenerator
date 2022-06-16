@@ -37,7 +37,7 @@ def read_constants(constant_file):
     data = csv.reader(file)
 
     const_header = next(data)
-    const_values = next(data)
+    const_values = [float(c) for c in next(data)]
 
     const_dict = dict(zip(const_header, const_values))
 
