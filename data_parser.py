@@ -12,8 +12,8 @@ def read_field_data(data_file):
     var_header_index = []
 
     for i, vh in enumerate(next(data)):
-        if vh and vh.strip() in VAL_FIELD_TYPE:
-            var_header.append(vh)
+        if vh and vh.strip().lower() in VAL_FIELD_TYPE:
+            var_header.append(vh.strip().lower())
             var_header_index.append(i)
 
     var_data = [[] for i in range(len(var_header))]

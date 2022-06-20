@@ -56,7 +56,7 @@ def parse_mr_xml(file_name):
 
 def write_mr_to_csv(initial_mr_score, generated_mr_scores, field_data, constants, output_file_name=None):
     if output_file_name is None:
-        output_file_name = "evaluation.csv"
+        output_file_name = "output/evaluation.csv"
 
     with open(output_file_name, 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
@@ -123,7 +123,9 @@ def convert_time(statement):
     if statement.p_right.v_right.type == MR.VAL_TYPE_VAR:
         list_time.append(statement.p_right.v_right.time)
 
-    min_time = min(list_time)
+    min_time = 0
+    if len(list_time) != 0:
+        min_time = min(list_time)
     if statement.p_left.v_left.type == MR.VAL_TYPE_VAR:
         statement.p_left.v_left.time -= min_time
     if statement.p_left.v_right.type == MR.VAL_TYPE_VAR:

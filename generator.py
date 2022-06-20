@@ -1,25 +1,58 @@
 import representation as MR
+import evaluator
+import random
 
 NUM_POP = 200
 XOVER_RATE = 0.6
+XOVER_PROP_RATE = 1.0
 MUT_RATE = 0.2
-BUDGET = 100
-TIME_RANGE = 100  # 1 tick ~ 50ms, 50 ticks ~ 2.5sec, 100 ticks ~ 5sec
+MUT_PROP_RATE = 1.0
+BUDGET = 10
 
 
 # field_data: dictionary of field data name and list of values
 # constants: dictionary of constant name and value pair
 def evolve(initial_mr, field_data, constants):
     penalty_cohesion = 0
-    population = generate_population_from_seed(initial_mr, len(field_data), len(constants))
-    population_fitness = evaluate_population(population, field_data, constants, penalty_cohesion)
+    population = generate_population_from_seed(initial_mr, len(field_data), len(constants), len(list(field_data.values())[0]))
+    population_fitness = evaluator.evaluate_population(population, field_data, constants, penalty_cohesion)
+    population_fitness = sorted(population_fitness, key=lambda x: (x[5], x[1]), reverse=True)
 
-    # GA
+    idx = 0
+    while idx < BUDGET:
+        print('Iteration: ', idx)
+        idx += 1
+        parent_fitness = population_fitness[:NUM_POP]
+        parents = [pf[0] for pf in parent_fitness]
+
+        p_len = len(parents)
+        p_half = int(p_len / 2)
+        offspring = []
+
+        for i in range(p_len):
+            if i >= p_half:
+                break
+            copy_s1 = parents[i].copy()
+            copy_s2 = parents[i + p_half].copy()
+            (o1, o2) = crossover(copy_s1, copy_s2, XOVER_RATE)
+            o1 = mutate(o1, MUT_RATE, len(field_data), len(constants), len(list(field_data.values())[0]))
+            o2 = mutate(o2, MUT_RATE, len(field_data), len(constants), len(list(field_data.values())[0]))
+
+            if evaluator.check_statement(o1) and not o1 in parents and not o1 in offspring:
+                offspring.append(o1)
+
+            if evaluator.check_statement(o2) and not o2 in parents and not o2 in offspring:
+                offspring.append(o2)
+
+        offspring_fitness = evaluator.evaluate_population(offspring, field_data, constants, penalty_cohesion)
+        population_fitness = parent_fitness + offspring_fitness
+        population_fitness = sorted(population_fitness, key=lambda x: (x[5], x[1]), reverse=True)
+        penalty_cohesion += float(1 / BUDGET)
 
     return population_fitness[:NUM_POP]
 
 
-def generate_population_from_seed(initial_mr, variable_range, constant_range):
+def generate_population_from_seed(initial_mr, num_var_types, num_const_types, time_range):
     population = []
 
     lp_op = initial_mr.p_left.op
@@ -44,16 +77,16 @@ def generate_population_from_seed(initial_mr, variable_range, constant_range):
     for (i, v) in enumerate(v_list):
         mut_v = []
         if v.type == MR.VAL_TYPE_VAR:
-            for j in [x for x in range(variable_range) if x != v.index]:
+            for j in [x for x in range(num_var_types) if x != v.index]:
                 copy_v = v.copy()
                 copy_v.index = j
                 mut_v.append(copy_v)
-            for j in [x for x in range(TIME_RANGE) if x != v.time]:
+            for j in [x for x in range(time_range) if x != v.time]:
                 copy_v = v.copy()
                 copy_v.time = j
                 mut_v.append(copy_v)
         else:
-            for j in [x for x in range(constant_range) if x != v.index]:
+            for j in [x for x in range(num_const_types) if x != v.index]:
                 copy_v = v.copy()
                 copy_v.index = j
                 mut_v.append(copy_v)
@@ -75,92 +108,229 @@ def generate_population_from_seed(initial_mr, variable_range, constant_range):
     return population
 
 
-def evaluate_population(population, field_data, constants, penalty_cohesion):
-    pop_fit = []
-    for p in population:
-        (tp, tn, fp, fn, score) = calculate_score(p, field_data, constants, penalty_cohesion)
-        pop_fit.append((p, tp, tn, fp, fn, score))
-    return pop_fit
-
-
-def calculate_score(statement, field_data, constants, penalty_cohesion):
-    time_len = []
-    field_data_len = len(list(field_data.values())[0])
-
-    if statement.p_left.v_left.type == MR.VAL_TYPE_VAR:
-        lp_lv = list(field_data.values())[statement.p_left.v_left.index]
-        lp_lv_t = statement.p_left.v_left.time
-        time_len.append(lp_lv_t)
+def crossover(copy_s1, copy_s2, crossover_rate):
+    is_prop = random.random()
+    if is_prop < XOVER_PROP_RATE:
+        (o1, o2) = crossover_prop(copy_s1, copy_s2, crossover_rate)
     else:
-        lp_lv = [list(constants.values())[statement.p_left.v_left.index]] * field_data_len
-        lp_lv_t = 0
+        (o1, o2) = crossover_val_op(copy_s1, copy_s2, crossover_rate)
+    return o1, o2
 
-    if statement.p_left.v_right.type == MR.VAL_TYPE_VAR:
-        lp_rv = list(field_data.values())[statement.p_left.v_right.index]
-        lp_rv_t = statement.p_left.v_right.time
-        time_len.append(lp_rv_t)
+
+def crossover_prop(copy_s1, copy_s2, crossover_rate):
+    is_direct = True
+
+    if is_direct:
+        do_crossover = random.random() < crossover_rate
+        if do_crossover:
+            (copy_s1.p_left, copy_s2.p_left) = (copy_s2.p_left, copy_s1.p_left)
+
+        do_crossover = random.random() < crossover_rate
+        if do_crossover:
+            (copy_s1.p_right, copy_s2.p_right) = (copy_s2.p_right, copy_s1.p_right)
     else:
-        lp_rv = [list(constants.values())[statement.p_left.v_right.index]] * field_data_len
-        lp_rv_t = 0
+        do_crossover = random.random() < crossover_rate
+        if do_crossover:
+            (copy_s1.p_left, copy_s2.p_right) = (copy_s2.p_right, copy_s1.p_left)
 
-    if statement.p_right.v_left.type == MR.VAL_TYPE_VAR:
-        rp_lv = list(field_data.values())[statement.p_right.v_left.index]
-        rp_lv_t = statement.p_right.v_left.time
-        time_len.append(rp_lv_t)
+        do_crossover = random.random() < crossover_rate
+        if do_crossover:
+            (copy_s1.p_right, copy_s2.p_left) = (copy_s2.p_left, copy_s1.p_right)
+    return copy_s1, copy_s2
+
+
+def crossover_val_op(copy_s1, copy_s2, crossover_rate):
+    keep_prop_order = True
+    keep_value_order = True
+
+    if keep_prop_order:
+        do_crossover = random.random() < crossover_rate
+        if do_crossover:
+            (copy_s1.p_left.op, copy_s2.p_left.op) = (copy_s2.p_left.op, copy_s1.p_left.op)
+
+        do_crossover = random.random() < crossover_rate
+        if do_crossover:
+            (copy_s1.p_right.op, copy_s2.p_right.op) = (copy_s2.p_right.op, copy_s1.p_right.op)
+
+        if keep_value_order:
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_left.v_left, copy_s2.p_left.v_left) = (copy_s2.p_left.v_left, copy_s1.p_left.v_left)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_left.v_right, copy_s2.p_left.v_right) = (copy_s2.p_left.v_right, copy_s1.p_left.v_right)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_right.v_left, copy_s2.p_right.v_left) = (copy_s2.p_right.v_left, copy_s1.p_right.v_left)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_right.v_right, copy_s2.p_right.v_right) = (copy_s2.p_right.v_right, copy_s1.p_right.v_right)
+        else:
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_left.v_left, copy_s2.p_left.v_right) = (copy_s2.p_left.v_right, copy_s1.p_left.v_left)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_left.v_right, copy_s2.p_left.v_left) = (copy_s2.p_left.v_left, copy_s1.p_left.v_right)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_right.v_left, copy_s2.p_right.v_right) = (copy_s2.p_right.v_right, copy_s1.p_right.v_left)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_right.v_right, copy_s2.p_right.v_left) = (copy_s2.p_right.v_left, copy_s1.p_right.v_right)
     else:
-        rp_lv = [list(constants.values())[statement.p_right.v_left.index]] * field_data_len
-        rp_lv_t = 0
+        do_crossover = random.random() < crossover_rate
+        if do_crossover:
+            (copy_s1.p_left.op, copy_s2.p_right.op) = (copy_s2.p_right.op, copy_s1.p_left.op)
 
-    if statement.p_right.v_right.type == MR.VAL_TYPE_VAR:
-        rp_rv = list(field_data.values())[statement.p_right.v_right.index]
-        rp_rv_t = statement.p_right.v_right.time
-        time_len.append(rp_rv_t)
+        do_crossover = random.random() < crossover_rate
+        if do_crossover:
+            (copy_s1.p_right.op, copy_s2.p_left.op) = (copy_s2.p_left.op, copy_s1.p_right.op)
+
+        if keep_value_order:
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_left.v_left, copy_s2.p_right.v_left) = (copy_s2.p_right.v_left, copy_s1.p_left.v_left)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_left.v_right, copy_s2.p_right.v_right) = (copy_s2.p_right.v_right, copy_s1.p_left.v_right)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_right.v_left, copy_s2.p_left.v_left) = (copy_s2.p_left.v_left, copy_s1.p_right.v_left)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_right.v_right, copy_s2.p_left.v_right) = (copy_s2.p_left.v_right, copy_s1.p_right.v_right)
+        else:
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_left.v_left, copy_s2.p_right.v_right) = (copy_s2.p_right.v_right, copy_s1.p_left.v_left)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_left.v_right, copy_s2.p_right.v_left) = (copy_s2.p_right.v_left, copy_s1.p_left.v_right)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_right.v_left, copy_s2.p_left.v_right) = (copy_s2.p_left.v_right, copy_s1.p_right.v_left)
+
+            do_crossover = random.random() < crossover_rate
+            if do_crossover:
+                (copy_s1.p_right.v_right, copy_s2.p_left.v_left) = (copy_s2.p_left.v_left, copy_s1.p_right.v_right)
+    return copy_s1, copy_s2
+
+
+def mutate(individual, mutation_rate, num_var_types, num_const_types, time_range):
+    is_prop = random.random()
+    if is_prop < MUT_PROP_RATE:
+        o1 = mutate_prop(individual, mutation_rate, num_var_types, num_const_types, time_range)
     else:
-        rp_rv = [list(constants.values())[statement.p_right.v_right.index]] * field_data_len
-        rp_rv_t = 0
+        o1 = mutate_val_op(individual, mutation_rate, num_var_types, num_const_types, time_range)
+    return o1
 
-    data_len = [len(lp_lv), len(lp_rv), len(rp_lv), len(rp_rv)]
 
-    min_time = min(time_len)
-
-    max_time = 0
-    if lp_lv_t != 0:
-        lp_lv_t -= min_time
-        max_time = max(max_time, lp_lv_t)
-    if lp_rv_t != 0:
-        lp_rv_t -= min_time
-        max_time = max(max_time, lp_rv_t)
-    if rp_lv_t != 0:
-        rp_lv_t -= min_time
-        max_time = max(max_time, rp_lv_t)
-    if rp_rv_t != 0:
-        rp_rv_t -= min_time
-        max_time = max(max_time, rp_rv_t)
-    min_len = min(data_len) - max_time
-
-    tp = 0
-    tn = 0
-    fp = 0
-    fn = 0
-    for i in range(min_len):
-        first_left = lp_lv[i + lp_lv_t]
-        first_right = lp_rv[i + lp_rv_t]
-        first = MR.OPERATOR_DICT[statement.p_left.op](first_left, first_right)
-        second_left = rp_lv[i + rp_lv_t]
-        second_right = rp_rv[i + rp_rv_t]
-        second = MR.OPERATOR_DICT[statement.p_right.op](second_left, second_right)
-        if first and second:
-            tp += 1
-        elif first and not second:
-            tn += 1
-        elif not first and second:
-            fp += 1
-        elif not first and not second:
-            fn += 1
-
-    if (tp + tn) == 0:
-        score = 0
+def mutate_prop(individual, mutation_rate, num_var_types, num_const_types, time_range):
+    is_replace = True
+    if is_replace:
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            individual.p_left = generate_proposition(num_var_types, num_const_types, time_range)
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            individual.p_right = generate_proposition(num_var_types, num_const_types, time_range)
     else:
-        score = float(tp) / float(tp + tn) * 100.0
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            (individual.p_left, individual.p_right) = (individual.p_right, individual.p_left)
+    return individual
 
-    return tp, tn, fp, fn, score
+
+def mutate_val_op(individual, mutation_rate, num_var_types, num_const_types, time_range):
+    is_replace = True
+    within_prop = True
+    keep_value_order = True
+    if is_replace:
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            rand_op = random.randrange(len(MR.OPERATORS))
+            individual.p_left.op = MR.OPERATORS[rand_op]
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            rand_op = random.randrange(len(MR.OPERATORS))
+            individual.p_right.op = MR.OPERATORS[rand_op]
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            individual.p_left.v_left = generate_value(num_var_types, num_const_types, time_range)
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            individual.p_left.v_right = generate_value(num_var_types, num_const_types, time_range)
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            individual.p_right.v_left = generate_value(num_var_types, num_const_types, time_range)
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            individual.p_right.v_right = generate_value(num_var_types, num_const_types, time_range)
+    else:
+        do_mutate = random.random() < mutation_rate
+        if do_mutate:
+            (individual.p_left.op, individual.p_right.op) = (individual.p_right.op, individual.p_left.op)
+        if within_prop:
+            do_mutate = random.random() < mutation_rate
+            if do_mutate:
+                (individual.p_left.v_left, individual.p_left.v_right) = (
+                    individual.p_left.v_right, individual.p_left.v_left)
+            do_mutate = random.random() < mutation_rate
+            if do_mutate:
+                (individual.p_right.v_left, individual.p_right.v_right) = (
+                    individual.p_right.v_right, individual.p_right.v_left)
+        else:
+            if keep_value_order:
+                do_mutate = random.random() < mutation_rate
+                if do_mutate:
+                    (individual.p_left.v_left, individual.p_right.v_left) = (
+                        individual.p_right.v_left, individual.p_left.v_left)
+                do_mutate = random.random() < mutation_rate
+                if do_mutate:
+                    (individual.p_left.v_right, individual.p_right.v_right) = (
+                        individual.p_right.v_right, individual.p_left.v_right)
+            else:
+                do_mutate = random.random() < mutation_rate
+                if do_mutate:
+                    (individual.p_left.v_left, individual.p_right.v_right) = (
+                        individual.p_right.v_right, individual.p_left.v_left)
+                do_mutate = random.random() < mutation_rate
+                if do_mutate:
+                    (individual.p_left.v_right, individual.p_right.v_left) = (
+                        individual.p_right.v_left, individual.p_left.v_right)
+    return individual
+
+
+def generate_value(num_var_types, num_const_types, time_range):
+    rand_v_type = random.randrange(num_var_types + num_const_types)
+    v = MR.Value()
+    if rand_v_type < num_var_types:
+        v.type = MR.VAL_TYPE_VAR
+        v.index = random.randrange(num_var_types)
+        v.time = random.randrange(time_range)
+    else:
+        v.type = MR.VAL_TYPE_CONS
+        v.index = random.randrange(num_const_types)
+    return v
+
+
+def generate_proposition(num_var_types, num_const_types, time_range):
+    rand_op = random.randrange(len(MR.OPERATORS))
+    op = MR.OPERATORS[rand_op]
+
+    lv = generate_value(num_var_types, num_const_types, time_range)
+    rv = generate_value(num_var_types, num_const_types, time_range)
+    return MR.Prop(lv, op, rv)
+
