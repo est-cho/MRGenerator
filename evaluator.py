@@ -1,6 +1,9 @@
 import representation as MR
 import data_parser
 
+
+IS_GUIDED = True
+
 MAX_TIME_RANGE = 50  # 1 tick ~ 50ms, 50 ticks ~ 2.5sec, 100 ticks ~ 5sec
 
 PENALTY_TIME = 0.9
@@ -96,9 +99,10 @@ def calculate_score(statement, field_data, constants, penalty_cohesion):
         score = 0
     else:
         score = float(tp) / float(tp + tn) * 100.0
-        score = get_adjusted_score(score, statement, field_data, constants, penalty_cohesion)
-        if max_time >= MAX_TIME_RANGE:
-            score = score * (1 - PENALTY_TIME)
+        if IS_GUIDED:
+            score = get_adjusted_score(score, statement, field_data, constants, penalty_cohesion)
+            if max_time >= MAX_TIME_RANGE:
+                score = score * (1 - PENALTY_TIME)
     return tp, tn, fp, fn, score
 
 

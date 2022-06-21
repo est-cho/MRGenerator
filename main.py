@@ -6,9 +6,29 @@ import evaluator
 
 
 DEFAULT_INIT_MR = "initial_mrs/initial_1.xml"
-DEFAULT_DATA_FILE = "data/0.6_1.2_180_logs/log_0.6_1.2_180_all_2021_12_03_22_40_58_572206.csv"
+# (0.6, 1.2, 180)
+DEFAULT_DATA_FILE = "data/0.6_1.2_180_logs/log_0.6_1.2_180_all_2021_12_07_03_24_43_797777.csv"
+# DEFAULT_DATA_FILE = "data/0.6_1.2_180_logs/log_0.6_1.2_180_all_2021_12_06_04_08_45_055724.csv"
+# DEFAULT_DATA_FILE = "data/0.6_1.2_180_logs/log_0.6_1.2_180_all_2021_12_04_16_15_57_356080.csv"
+# DEFAULT_DATA_FILE = "data/0.6_1.2_180_logs/log_0.6_1.2_180_all_2021_12_06_04_08_45_055724.csv"
+# DEFAULT_DATA_FILE = "data/0.6_1.2_180_logs/log_0.6_1.2_180_all_2021_12_06_14_02_08_022647.csv"
+# DEFAULT_DATA_FILE = "data/0.6_1.2_180_logs/log_0.6_1.2_180_all_2021_12_06_14_06_58_164313.csv"
+
+# (0.5, 0.6, 140)
+# DEFAULT_DATA_FILE = "data/0.5_0.6_140_logs/log_0.5_0.6_140_all_2021_12_05_00_55_09_474130.csv"
+# DEFAULT_DATA_FILE = "data/0.5_0.6_140_logs/log_0.5_0.6_140_all_2021_12_05_01_00_16_531837.csv"
+# DEFAULT_DATA_FILE = "data/0.5_0.6_140_logs/log_0.5_0.6_140_all_2021_12_05_16_05_42_678940.csv"
+# DEFAULT_DATA_FILE = "data/0.5_0.6_140_logs/log_0.5_0.6_140_all_2021_12_05_16_08_14_575245.csv"
+# DEFAULT_DATA_FILE = "data/0.5_0.6_140_logs/log_0.5_0.6_140_all_2021_12_07_08_47_52_511099.csv"
+
+# (0.8, 1.8, 200)
+# DEFAULT_DATA_FILE = "data/0.8_1.8_200_logs/log_0.8_1.8_200_all_2020_04_11_03_58_50_877981.csv"
+# DEFAULT_DATA_FILE = "data/0.8_1.8_200_logs/log_0.8_1.8_200_all_2020_04_11_03_59_34_059029.csv"
+# DEFAULT_DATA_FILE = "data/0.8_1.8_200_logs/log_0.8_1.8_200_all_2021_12_06_10_27_40_013711.csv"
+# DEFAULT_DATA_FILE = "data/0.8_1.8_200_logs/log_0.8_1.8_200_all_2021_12_06_18_01_53_598053.csv"
+
 DEFAULT_CONST_FILE = "data/constants.csv"
-DEFAULT_OUTPUT_FILE = "output/2022-06-19_20_26/evaluation.csv"
+DEFAULT_OUTPUT_FILE = "output/2022-06-21_13_21/"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='MRGenerator')
@@ -39,7 +59,7 @@ if __name__ == '__main__':
     idx = 0
     for i in range(5):
         idx += 1
-        out_file = "output/2022-06-19_20_26/evaluation_" + str(idx) + ".csv"
+        out_file = DEFAULT_OUTPUT_FILE + "evaluation_" + str(idx) + ".csv"
         for mr in i_mrs:
             (tp, tn, fp, fn, score) = evaluator.calculate_score(mr, field_data, constants, 0)
             initial_mr_score = (mr, tp, tn, fp, fn, score)

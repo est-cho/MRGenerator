@@ -20,7 +20,6 @@ def evolve(initial_mr, field_data, constants):
 
     idx = 0
     while idx < BUDGET:
-        print('Iteration: ', idx)
         idx += 1
         parent_fitness = population_fitness[:NUM_POP]
         parents = [pf[0] for pf in parent_fitness]
@@ -44,8 +43,8 @@ def evolve(initial_mr, field_data, constants):
             if evaluator.check_statement(o2) and not o2 in parents and not o2 in offspring:
                 offspring.append(o2)
 
-        offspring_fitness = evaluator.evaluate_population(offspring, field_data, constants, penalty_cohesion)
-        population_fitness = parent_fitness + offspring_fitness
+        population = parents + offspring
+        population_fitness = evaluator.evaluate_population(population, field_data, constants, penalty_cohesion)
         population_fitness = sorted(population_fitness, key=lambda x: (x[5], x[1]), reverse=True)
         penalty_cohesion += float(1 / BUDGET)
 
@@ -314,15 +313,15 @@ def mutate_val_op(individual, mutation_rate, num_var_types, num_const_types, tim
 
 
 def generate_value(num_var_types, num_const_types, time_range):
-    rand_v_type = random.randrange(num_var_types + num_const_types)
+    rand_v_type = random.randrange(num_const_types + num_var_types * time_range)
     v = MR.Value()
-    if rand_v_type < num_var_types:
+    if rand_v_type < num_const_types:
+        v.type = MR.VAL_TYPE_CONS
+        v.index = random.randrange(num_const_types)
+    else:
         v.type = MR.VAL_TYPE_VAR
         v.index = random.randrange(num_var_types)
         v.time = random.randrange(time_range)
-    else:
-        v.type = MR.VAL_TYPE_CONS
-        v.index = random.randrange(num_const_types)
     return v
 
 
