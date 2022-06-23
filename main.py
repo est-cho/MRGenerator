@@ -27,7 +27,7 @@ DEFAULT_DATA_FILE = "log_0.6_1.2_180_all_2021_12_07_03_24_43_797777"
 # DEFAULT_DATA_FILE = "log_0.8_1.8_200_all_2021_12_06_10_27_40_013711"
 # DEFAULT_DATA_FILE = "log_0.8_1.8_200_all_2021_12_06_18_01_53_598053"
 
-DEFAULT_CONST_FILE = "constants.csv"
+DEFAULT_CONST_FILE = "data/constants.csv"
 DEFAULT_OUTPUT_FILE = "output/" + DEFAULT_DATA_FILE + "/"
 
 if __name__ == '__main__':
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     idx = 0
     for i in range(1):
         idx += 1
-        out_file = DEFAULT_OUTPUT_FILE + str(datetime.datetime.now()) + str(idx) + ".csv"
+        out_file = DEFAULT_OUTPUT_FILE + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + str(idx) + ".csv"
         for mr in i_mrs:
             (tp, tn, fp, fn, score) = evaluator.calculate_score(mr, field_data, constants, 0)
             initial_mr_score = (mr, tp, tn, fp, fn, score)
