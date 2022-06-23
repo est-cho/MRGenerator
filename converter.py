@@ -54,12 +54,15 @@ def parse_mr_xml(file_name):
     return s_list
 
 
-def write_mr_to_csv(initial_mr_score, generated_mr_scores, field_data, constants, output_file_name=None):
+def write_mr_to_csv(initial_mr_score, generated_mr_scores, ga_params, field_data, constants, output_file_name=None):
     if output_file_name is None:
         output_file_name = "output/evaluation.csv"
 
     with open(output_file_name, 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
+
+        for p in ga_params:
+            csv_writer.writerow(p)
 
         csv_writer.writerow(['LPLV', 'LPOP', 'LPRV', 'RPLV', 'RPOP', 'RPRV', 'tp', 'tn', 'fp', 'fn', 'Score'])
         ret = convert_statement_with_header(initial_mr_score[0], field_data, constants)
@@ -72,7 +75,7 @@ def write_mr_to_csv(initial_mr_score, generated_mr_scores, field_data, constants
 
         csv_writer.writerow(['LPLV', 'LPOP', 'LPRV', 'RPLV', 'RPOP', 'RPRV', 'tp', 'tn', 'fp', 'fn', 'Score'])
 
-        for m in sorted(generated_mr_scores, key=lambda x: (x[5], x[1]), reverse=True):
+        for m in generated_mr_scores:
             ret = convert_statement_with_header(m[0], field_data, constants)
             ret.append(m[1])
             ret.append(m[2])

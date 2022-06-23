@@ -1,3 +1,4 @@
+import converter
 import representation as MR
 import evaluator
 import random
@@ -10,6 +11,16 @@ MUT_PROP_RATE = 1.0
 BUDGET = 10
 
 
+def get_ga_params():
+    params = [['Population Size', str(NUM_POP)],
+              ['Crossover Rate', str(XOVER_RATE)],
+              ['Proposition Crossover Rate', str(XOVER_PROP_RATE)],
+              ['Mutation Rate', str(MUT_RATE)],
+              ['Proposition Mutation Rate', str(MUT_PROP_RATE)],
+              ['Budget', str(BUDGET)]]
+    return params
+
+
 # field_data: dictionary of field data name and list of values
 # constants: dictionary of constant name and value pair
 def evolve(initial_mr, field_data, constants):
@@ -20,6 +31,7 @@ def evolve(initial_mr, field_data, constants):
 
     idx = 0
     while idx < BUDGET:
+        print('.', end='')
         idx += 1
         parent_fitness = population_fitness[:NUM_POP]
         parents = [pf[0] for pf in parent_fitness]
@@ -36,6 +48,9 @@ def evolve(initial_mr, field_data, constants):
             (o1, o2) = crossover(copy_s1, copy_s2, XOVER_RATE)
             o1 = mutate(o1, MUT_RATE, len(field_data), len(constants), len(list(field_data.values())[0]))
             o2 = mutate(o2, MUT_RATE, len(field_data), len(constants), len(list(field_data.values())[0]))
+
+            o1 = converter.convert_time(o1)
+            o2 = converter.convert_time(o2)
 
             if evaluator.check_statement(o1) and not o1 in parents and not o1 in offspring:
                 offspring.append(o1)
@@ -94,15 +109,15 @@ def generate_population_from_seed(initial_mr, num_var_types, num_const_types, ti
             copy_mr = initial_mr.copy()
             if i == 0:
                 copy_mr.p_left.v_left = mv
-                population.append(copy_mr)
             elif i == 1:
                 copy_mr.p_left.v_right = mv
-                population.append(copy_mr)
             elif i == 2:
                 copy_mr.p_right.v_left = mv
-                population.append(copy_mr)
             else:
                 copy_mr.p_right.v_right = mv
+
+            copy_mr = converter.convert_time(copy_mr)
+            if not copy_mr in population:
                 population.append(copy_mr)
     return population
 

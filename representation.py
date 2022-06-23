@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import operator
 
 
-OPERATORS = ["==", "<=", ">=", "<", ">", "!="]
+OPERATORS = ["==", "<=", ">=", "<", ">"]
 OPERATOR_DICT = {"==": operator.eq, "<=": operator.le, ">=": operator.ge,
                  "<": operator.lt, ">": operator.gt, "!=": operator.ne}
 

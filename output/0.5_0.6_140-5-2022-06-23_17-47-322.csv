@@ -1,0 +1,209 @@
+Population Size,200
+Crossover Rate,0.6
+Proposition Crossover Rate,1.0
+Mutation Rate,0.2
+Proposition Mutation Rate,1.0
+Budget,10
+LPLV,LPOP,LPRV,RPLV,RPOP,RPRV,tp,tn,fp,fn,Score
+color t+0,>,color_goal,color t+1,<,color_goal,10,95,114,23,9.523809523809524
+LPLV,LPOP,LPRV,RPLV,RPOP,RPRV,tp,tn,fp,fn,Score
+color t+0,>,color_goal,color t+1,>=,color_goal,95,10,23,114,90.47619047619048
+color t+0,<=,color_goal,color t+0,<,color_goal,124,14,0,105,89.85507246376811
+color t+0,<,color_goal,color t+1,<,color_goal,107,16,17,102,86.99186991869918
+color t+0,>,color_goal,distance t+45,<=,distance t+3,74,12,100,12,86.04651162790698
+color t+0,>,color_goal,color t+1,>,color_goal,90,15,15,122,85.71428571428571
+color t+11,>,color_goal,color t+0,<,color_goal,85,15,33,99,85.0
+color t+12,>,color_goal,color t+0,<,color_goal,85,15,33,98,85.0
+color t+0,>,color_goal,color t+10,<,color_goal,85,16,35,97,84.15841584158416
+color t+0,<=,color_goal,color t+1,<,color_goal,114,23,10,95,83.21167883211679
+color t+10,>,color_goal,color t+0,<,color_goal,83,17,35,98,83.0
+color t+0,>,color_goal,color t+11,<,color_goal,83,17,36,96,83.0
+color t+0,>,color_goal,color t+12,<,color_goal,82,17,36,96,82.82828282828282
+color t+0,<=,color_goal,speed t+41,<=,speed t+7,95,21,65,21,81.89655172413794
+color t+0,>,color_goal,color t+9,<,color_goal,83,19,38,94,81.37254901960785
+color t+9,>,color_goal,color t+0,<,color_goal,80,20,38,96,80.0
+color t+44,>,color_goal,speed t+34,<=,speed t+0,69,18,90,22,79.3103448275862
+color t+0,>,color_goal,color t+32,<,color_goal,72,20,36,83,78.26086956521739
+color t+0,>,color_goal,color t+33,<,color_goal,71,20,36,83,78.02197802197803
+color t+31,>,color_goal,speed t+34,<=,speed t+0,71,20,96,22,78.02197802197803
+color t+13,>,color_goal,color t+0,<,color_goal,78,22,40,90,78.0
+color t+16,>,color_goal,distance t+21,<,distance t+0,78,22,95,27,78.0
+color t+0,>,color_goal,color t+13,<,color_goal,76,22,41,91,77.55102040816327
+color t+33,>,color_goal,color t+0,<,color_goal,70,21,36,83,76.92307692307693
+color t+0,>,color_goal,speed t+48,<=,speed t+14,66,20,87,22,76.74418604651163
+color t+0,>,color_goal,color t+8,<,color_goal,79,24,43,89,76.69902912621359
+color t+0,>,color_goal,color t+31,<,color_goal,71,22,38,81,76.34408602150538
+color t+0,>,color_goal,distance t+21,<,distance t+0,71,22,102,27,76.34408602150538
+color t+10,>,color_goal,speed t+34,<=,speed t+0,67,21,100,21,76.13636363636364
+color t+32,>,color_goal,color t+0,<,color_goal,69,22,37,83,75.82417582417582
+color t+48,>,color_goal,angle t+0,<,angle t+47,65,21,38,71,75.5813953488372
+color t+0,>,color_goal,speed t+41,<=,speed t+7,65,21,95,21,75.5813953488372
+color t+8,>,color_goal,color t+0,<,color_goal,75,25,43,92,75.0
+color t+0,>,color_goal,color t+34,<,color_goal,67,23,39,80,74.44444444444444
+color t+14,>,color_goal,color t+0,<=,color_goal,74,26,58,71,74.0
+color t+31,>,color_goal,color t+0,<,color_goal,67,24,39,82,73.62637362637363
+color t+0,>,color_goal,color t+30,<,color_goal,68,25,41,79,73.11827956989248
+color t+34,>,color_goal,color t+0,<,color_goal,66,25,40,78,72.52747252747253
+color t+0,>,color_goal,color t+7,<,color_goal,72,32,51,81,69.23076923076923
+color t+14,>,color_goal,color t+0,<,color_goal,69,31,49,80,69.0
+color t+0,>,color_goal,color t+29,<,color_goal,64,29,45,76,68.81720430107528
+color t+30,>,color_goal,color t+0,<,color_goal,63,29,43,78,68.47826086956522
+color t+0,>,color_goal,color t+14,<,color_goal,65,32,51,81,67.0103092783505
+color t+7,>,color_goal,color t+0,<,color_goal,67,33,51,85,67.0
+color t+0,>,color_goal,color t+35,<,color_goal,59,30,46,73,66.29213483146067
+color t+0,<=,color_goal,color t+24,<,color_goal,83,43,29,64,65.87301587301587
+color t+35,>,color_goal,color t+0,<,color_goal,59,32,47,70,64.83516483516483
+color t+29,>,color_goal,color t+0,<,color_goal,60,33,47,74,64.51612903225806
+color t+0,>,color_goal,distance t+10,<,distance t+0,65,36,91,41,64.35643564356435
+distance t+7,==,distance t+0,color t+0,<,color_goal,22,13,96,105,62.857142857142854
+color t+0,>,color_goal,color t+28,<,color_goal,57,36,53,69,61.29032258064516
+color t+0,<=,color_goal,color t+46,<,color_goal,68,43,31,55,61.261261261261254
+color t+0,<=,color_goal,color t+41,<,color_goal,71,45,29,57,61.206896551724135
+color t+15,>,color_goal,color t+0,<,color_goal,61,39,57,71,61.0
+color t+0,>,color_goal,color t+6,<,color_goal,64,41,59,73,60.952380952380956
+color t+40,>,color_goal,color t+0,>=,color_goal,55,36,42,70,60.43956043956044
+color t+33,>,color_goal,angle t+0,<,angle t+47,49,34,55,58,59.036144578313255
+color t+0,>,color_goal,color t+15,<,color_goal,56,40,59,73,58.333333333333336
+color t+36,>,color_goal,color t+0,<,color_goal,53,38,53,63,58.24175824175825
+color t+0,<=,color_goal,color t+40,<,color_goal,68,49,32,54,58.119658119658126
+color t+28,>,color_goal,color t+0,<,color_goal,54,39,54,68,58.06451612903226
+color t+6,>,color_goal,color t+0,<,color_goal,58,43,60,76,57.42574257425742
+distance t+7,==,distance t+0,color t+22,<,color_goal,20,15,92,94,57.14285714285714
+color t+0,>,color_goal,color t+36,<,color_goal,50,38,54,65,56.81818181818182
+speed t+32,<=,speed t+0,color t+1,<=,color_goal,96,74,22,19,56.470588235294116
+color t+13,>,color_goal,angle t+0,<,angle t+47,48,37,56,55,56.470588235294116
+color t+44,>,color_goal,angle t+0,<,angle t+47,48,39,56,53,55.172413793103445
+speed t+32,<=,speed t+0,color t+10,<,color_goal,90,80,20,21,52.94117647058824
+color t+0,>,color_goal,color t+27,<,color_goal,49,44,62,61,52.68817204301075
+color t+0,>,color_goal,color t+5,<,color_goal,55,50,68,65,52.38095238095239
+color t+37,>,color_goal,color t+0,<,color_goal,47,44,59,56,51.64835164835166
+speed t+32,<=,speed t+0,color t+1,<,color_goal,87,83,19,22,51.17647058823529
+color t+49,>,color_goal,color t+0,<,color_goal,44,42,55,53,51.162790697674424
+color t+0,>,color_goal,color t+49,<,color_goal,44,42,52,56,51.162790697674424
+color t+16,>,color_goal,color t+0,<,color_goal,51,49,67,60,51.0
+speed t+32,<=,speed t+0,color t+0,<,color_goal,86,84,20,21,50.588235294117645
+color t+27,>,color_goal,color t+0,<,color_goal,47,46,62,61,50.53763440860215
+color t+0,==,color_goal,color t+1,<,color_goal,7,7,117,111,50.0
+color t+0,==,color_goal,color t+2,<,color_goal,7,7,116,111,50.0
+color t+48,>,color_goal,color t+0,<,color_goal,42,44,58,51,48.837209302325576
+color t+0,>,color_goal,color t+16,<,color_goal,46,49,68,64,48.421052631578945
+color t+0,>,color_goal,color t+37,<,color_goal,42,45,61,58,48.275862068965516
+color t+5,>,color_goal,color t+0,<,color_goal,48,54,71,65,47.05882352941176
+color t+0,>,color_goal,color t+26,<,color_goal,43,50,69,55,46.236559139784944
+color t+0,>,color_goal,color t+48,<,color_goal,39,47,58,51,45.348837209302324
+color t+38,>,color_goal,color t+0,<,color_goal,41,50,65,49,45.05494505494506
+color t+26,>,color_goal,color t+0,<,color_goal,41,52,69,55,44.086021505376344
+color t+39,>,color_goal,color t+0,<,color_goal,40,51,66,47,43.956043956043956
+color t+43,>,color_goal,angle t+0,<=,angle t+27,38,50,69,43,43.18181818181818
+color t+47,>,color_goal,color t+0,<,color_goal,37,49,64,46,43.02325581395349
+color t+17,>,color_goal,color t+0,<,color_goal,43,57,75,51,43.0
+color t+0,==,color_goal,color t+21,<,color_goal,6,8,106,102,42.857142857142854
+color t+0,>,color_goal,color t+38,<,color_goal,37,50,65,53,42.5287356321839
+color t+0,>,color_goal,color t+4,<,color_goal,44,61,79,55,41.904761904761905
+color t+44,>,color_goal,color t+0,<,color_goal,36,51,68,44,41.37931034482759
+color t+43,>,color_goal,color t+0,<,color_goal,36,52,69,43,40.909090909090914
+color t+0,>,color_goal,color t+39,<,color_goal,35,52,66,51,40.229885057471265
+color t+21,>,color_goal,angle t+0,<,angle t+47,34,51,70,41,40.0
+color t+40,>,color_goal,color t+0,<,color_goal,36,55,70,42,39.56043956043956
+color t+45,>,color_goal,color t+0,<,color_goal,34,52,69,43,39.53488372093023
+color t+42,>,color_goal,color t+0,<,color_goal,35,54,71,41,39.325842696629216
+color t+4,>,color_goal,color t+0,<,color_goal,40,63,80,56,38.83495145631068
+color t+0,<=,color_goal,color t+7,<,color_goal,51,81,72,32,38.63636363636363
+color t+46,>,color_goal,color t+0,<,color_goal,33,53,69,42,38.372093023255815
+color t+0,>,color_goal,color t+47,<,color_goal,33,53,65,45,38.372093023255815
+color t+0,>,color_goal,color t+17,<,color_goal,36,58,77,55,38.297872340425535
+color t+41,>,color_goal,color t+0,<,color_goal,34,56,72,40,37.77777777777778
+color t+25,>,color_goal,color t+0,<,color_goal,35,58,76,49,37.634408602150536
+color t+0,>,color_goal,color t+25,<,color_goal,35,58,77,48,37.634408602150536
+color t+0,>,color_goal,color t+40,<,color_goal,32,54,68,49,37.2093023255814
+color t+0,>,color_goal,color t+43,<,color_goal,32,54,68,46,37.2093023255814
+color t+0,>,color_goal,color t+44,<,color_goal,31,55,69,44,36.04651162790697
+color t+0,>,color_goal,color t+45,<,color_goal,31,55,69,43,36.04651162790697
+color t+0,>,color_goal,color t+46,<,color_goal,31,55,68,43,36.04651162790697
+color t+0,>,color_goal,color t+42,<,color_goal,30,56,70,45,34.883720930232556
+color t+18,>,color_goal,color t+0,<,color_goal,34,66,84,41,34.0
+color t+0,>,color_goal,color t+41,<,color_goal,29,57,71,45,33.72093023255814
+color t+0,>,color_goal,color t+3,<,color_goal,34,71,89,46,32.38095238095238
+color t+19,>,color_goal,angle t+0,<,angle t+47,28,59,76,33,32.18390804597701
+color t+0,>,color_goal,color t+24,<,color_goal,29,64,83,43,31.182795698924732
+color t+3,>,color_goal,color t+0,<,color_goal,32,72,89,47,30.76923076923077
+color t+0,>,color_goal,angle t+0,<=,angle t+27,28,65,86,37,30.107526881720432
+color t+24,>,color_goal,color t+0,<,color_goal,28,66,84,41,29.78723404255319
+color t+0,>,color_goal,angle t+0,<,angle t+47,25,61,79,31,29.069767441860467
+color t+0,>,color_goal,color t+18,<,color_goal,27,66,85,47,29.03225806451613
+color t+0,>,color_goal,speed t+15,<,speed t+21,26,67,38,91,27.956989247311824
+color t+23,>,color_goal,color t+0,<,color_goal,26,69,87,38,27.368421052631582
+color t+19,>,color_goal,color t+0,<,color_goal,27,72,90,35,27.27272727272727
+color t+0,>,color_goal,speed t+23,>,speed t+0,24,69,22,105,25.806451612903224
+color t+0,>,color_goal,color t+23,<,color_goal,23,70,89,38,24.731182795698924
+color t+22,>,color_goal,color t+0,<,color_goal,23,73,91,34,23.958333333333336
+color t+21,>,color_goal,color t+0,<,color_goal,23,74,92,33,23.711340206185564
+color t+0,>,color_goal,color t+19,<,color_goal,22,71,90,41,23.655913978494624
+color t+20,>,color_goal,color t+0,<,color_goal,23,75,93,32,23.46938775510204
+color t+22,>,color_goal,speed t+23,>,speed t+0,22,74,24,100,22.916666666666664
+color t+0,>,color_goal,color t+2,<,color_goal,23,82,100,36,21.904761904761905
+color t+2,>,color_goal,color t+0,<,color_goal,22,83,100,36,20.952380952380953
+color t+0,>,color_goal,color t+20,<,color_goal,19,74,93,37,20.43010752688172
+color t+0,>,color_goal,color t+21,<,color_goal,18,75,94,35,19.35483870967742
+color t+0,>,color_goal,color t+22,<,color_goal,17,76,95,33,18.27956989247312
+color t+0,>=,color_goal,color t+1,<,color_goal,17,102,107,16,14.285714285714285
+color t+0,>,color_goal,color t+1,<=,color_goal,15,90,122,15,14.285714285714285
+color t+1,>,color_goal,color t+0,<,color_goal,11,94,112,25,10.476190476190476
+speed t+32,<=,speed t+0,angle t+7,<,speed t+42,161,0,40,0,10.000000000000009
+color t+0,<=,color_goal,angle t+1,<,color_goal,137,0,105,0,10.000000000000009
+color t+0,>,color_goal,angle t+1,<,color_goal,105,0,137,0,10.000000000000009
+color t+0,>,color_goal,color t+1,<,distance_goal,105,0,137,0,10.000000000000009
+color t+1,>,color_goal,color t+0,<,distance_goal,105,0,137,0,10.000000000000009
+color t+0,>,color_goal,color t+0,<,distance_goal,105,0,138,0,10.000000000000009
+color t+0,>,color_goal,speed t+15,>,color t+0,96,0,132,0,10.000000000000009
+color t+0,>,color_goal,distance t+8,>,angle t+30,93,0,120,0,10.000000000000009
+color t+0,>,color_goal,distance t+10,>=,speed t+31,93,0,119,0,10.000000000000009
+color t+28,>,color_goal,angle t+0,<,speed t+35,92,0,116,0,10.000000000000009
+color t+31,>,color_goal,speed t+15,>,color t+0,91,0,121,0,10.000000000000009
+color t+16,>,color_goal,distance t+0,>,speed t+36,88,0,119,0,10.000000000000009
+color t+20,>,color_goal,distance t+0,>,speed t+36,88,0,119,0,10.000000000000009
+color t+0,>,color_goal,distance t+0,>,speed t+36,88,0,119,0,10.000000000000009
+color t+0,>,color_goal,distance t+3,>,speed t+39,87,0,117,0,10.000000000000009
+color t+0,>,color_goal,color t+26,>,angle t+38,87,0,118,0,10.000000000000009
+color t+44,>,color_goal,speed t+15,>,color t+0,87,0,112,0,10.000000000000009
+color t+0,>,color_goal,angle t+7,<,speed t+42,86,0,115,0,10.000000000000009
+color t+0,==,color_goal,distance t+3,>,speed t+39,11,0,193,0,10.000000000000009
+color t+15,>,color_goal,distance t+117,<,distance t+0,57,0,69,0,9.999999999999998
+color t+36,>,color_goal,distance t+117,<,distance t+0,56,0,70,0,9.999999999999998
+color t+49,>,color_goal,distance t+117,<,distance t+0,55,0,71,0,9.999999999999998
+color t+0,>,color_goal,distance t+117,<,distance t+0,54,0,72,0,9.999999999999998
+color t+122,>,color_goal,distance t+117,<,distance t+0,51,0,70,0,9.999999999999998
+color t+6,>,color_goal,distance t+117,<,distance t+0,50,0,76,0,9.999999999999998
+color t+7,>,color_goal,distance t+117,<,distance t+0,49,0,77,0,9.999999999999998
+angle t+51,<=,angle t+2,speed t+148,<=,speed t+0,43,0,51,1,9.999999999999998
+color t+39,>,color_goal,speed t+154,<=,speed t+0,40,0,49,0,9.999999999999998
+color t+32,>,color_goal,speed t+154,<=,speed t+0,39,0,50,0,9.999999999999998
+color t+20,>,color_goal,speed t+154,<=,speed t+0,36,0,53,0,9.999999999999998
+color t+22,>,color_goal,speed t+154,<=,speed t+0,34,0,55,0,9.999999999999998
+color t+1,>,color_goal,speed t+154,<=,speed t+0,34,0,55,0,9.999999999999998
+color t+0,>,color_goal,speed t+165,<=,speed t+11,30,0,48,0,9.999999999999998
+color t+17,>,color_goal,speed t+173,<=,speed t+0,29,0,41,0,9.999999999999998
+color t+0,>,color_goal,speed t+181,<=,speed t+27,25,0,37,0,9.999999999999998
+color t+3,>,color_goal,speed t+173,<=,speed t+0,25,0,45,0,9.999999999999998
+color t+197,>=,color t+95,distance t+117,<,distance t+0,20,0,26,0,9.999999999999998
+color t+0,>,color_goal,speed t+197,<,speed t+3,19,0,27,0,9.999999999999998
+color t+44,>,color_goal,speed t+0,>=,speed t+201,16,0,26,0,9.999999999999998
+color t+0,>,color_goal,speed t+0,>=,speed t+201,16,0,26,0,9.999999999999998
+color t+0,>,color_goal,distance t+212,<,distance t+27,14,0,17,0,9.999999999999998
+color t+0,>,color_goal,speed t+5,>=,speed t+206,14,0,23,0,9.999999999999998
+color t+0,>,color_goal,distance t+207,<,distance t+22,14,0,22,0,9.999999999999998
+color t+0,>,color_goal,speed t+8,>=,speed t+205,14,0,24,0,9.999999999999998
+color t+166,>=,color t+0,speed t+29,>=,speed t+226,10,0,7,0,9.999999999999998
+color t+0,>,color_goal,color t+235,<,color_goal,5,0,1,2,9.999999999999998
+color t+0,>,color_goal,color t+236,<,color_goal,5,0,1,1,9.999999999999998
+color t+0,>,color_goal,color t+226,>,color t+7,5,0,6,6,9.999999999999998
+color t+0,>,color_goal,color t+237,<,color_goal,4,0,2,0,9.999999999999998
+color t+0,>,color_goal,color t+238,<,color_goal,3,0,2,0,9.999999999999998
+color t+0,>,color_goal,color t+239,<,color_goal,2,0,2,0,9.999999999999998
+speed t+199,==,speed t+98,color t+0,<,color_goal,2,0,22,20,9.999999999999998
+distance t+39,==,distance t+148,color t+0,<,color_goal,2,0,52,41,9.999999999999998
+color t+0,==,color_goal,color t+217,<,color_goal,2,0,12,12,9.999999999999998
+color t+0,==,color_goal,speed t+135,>=,speed t+178,2,0,44,19,9.999999999999998
+color t+0,==,color_goal,speed t+232,>,speed t+230,1,0,2,8,9.999999999999998
+color t+0,>,color_goal,color t+1,<,color_goal,10,95,114,23,9.523809523809524
+distance t+0,>=,color t+18,speed t+41,<=,speed t+7,160,42,0,0,7.920792079207928
