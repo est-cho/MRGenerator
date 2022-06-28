@@ -3,7 +3,7 @@ import representation as MR
 import evaluator
 import random
 
-NUM_POP = 200
+NUM_POP = 100
 XOVER_RATE = 0.6
 XOVER_PROP_RATE = 1.0
 MUT_RATE = 0.2

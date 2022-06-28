@@ -3,7 +3,6 @@ import generator
 import converter
 import data_parser
 import evaluator
-import datetime
 
 DEFAULT_INIT_MR = "initial_mrs/initial_1.xml"
 
@@ -28,7 +27,7 @@ DATA_FILES = {"log_0.6_1.2_180_all_2021_12_07_03_24_43_797777.csv": CONFIG_1 + '
               }
 
 DEFAULT_CONST_FILE = "data/constants.csv"
-DEFAULT_OUTPUT_PATH = "output/"
+DEFAULT_OUTPUT_PATH = "output/100_0.6_0.2_10/"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='MRGenerator')
@@ -64,8 +63,7 @@ if __name__ == '__main__':
         for i in range(5):
             print(i, ': Searching', end='')
             idx += 1
-            out_file = DEFAULT_OUTPUT_PATH + v + datetime.datetime.now().strftime("-%Y-%m-%d_%H-%M-%S") + str(
-                idx) + ".csv"
+            out_file = DEFAULT_OUTPUT_PATH + v + '-' + str(idx) + ".csv"
 
             for mr in i_mrs:
                 (tp, tn, fp, fn, score) = evaluator.calculate_score(mr, field_data, constants, 0)

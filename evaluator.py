@@ -3,9 +3,7 @@ import data_parser
 
 
 IS_GUIDED = True
-
-MAX_TIME_RANGE = 50  # 1 tick ~ 50ms, 50 ticks ~ 2.5sec, 100 ticks ~ 5sec
-
+MAX_TIME_RANGE = 30  # 1 tick ~ 50ms, 50 ticks ~ 2.5sec, 100 ticks ~ 5sec
 PENALTY_TIME = 0.9
 PENALTY_COUPLING = 0.1
 
