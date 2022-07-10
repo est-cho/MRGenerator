@@ -1,10 +1,22 @@
 import csv
-
+import glob
 
 VAL_FIELD_TYPE = ['color', 'angle', 'distance', 'speed']
 
 
-def read_field_data(data_file):
+def get_filenames_from_path(data_path):
+    return glob.glob(data_path + "log*.csv")
+
+
+def read_field_data_path(data_path):
+    field_data_dict = {}
+    data_files = glob.glob(data_path + "log*.csv")
+    for f in data_files:
+        field_data_dict[f] = read_field_data_file(f)
+    return field_data_dict
+
+
+def read_field_data_file(data_file):
     file = open(data_file, 'r', encoding='utf-8-sig')
     data = csv.reader(file)
 

@@ -2,6 +2,7 @@ import converter
 import representation as MR
 import evaluator
 import random
+import data_parser
 
 NUM_POP = 100
 XOVER_RATE = 0.6
@@ -23,16 +24,22 @@ def get_ga_params():
 
 # field_data: dictionary of field data name and list of values
 # constants: dictionary of constant name and value pair
-def evolve(initial_mr, field_data, constants):
+def evolve(initial_mr, file_list, constants):
+    fd = data_parser.read_field_data_file(file_list[0])
+    num_var_types = len(fd)
+    num_const_types = len(constants)
+    time_range = len(list(fd.values())[0])
     penalty_cohesion = 0
-    population = generate_population_from_seed(initial_mr, len(field_data), len(constants), len(list(field_data.values())[0]))
-    population_fitness = evaluator.evaluate_population(population, field_data, constants, penalty_cohesion)
-    population_fitness = sorted(population_fitness, key=lambda x: (x[5], x[1]), reverse=True)
+
+    population = generate_population_from_seed(initial_mr, num_var_types, num_const_types, time_range)
+    population_fitness = evaluator.evaluate_population(population, file_list, constants, penalty_cohesion)
+    population_fitness = sorted(population_fitness, key=lambda x: (x[3], x[1]), reverse=True)
 
     idx = 0
     while idx < BUDGET:
         print('.', end='')
         idx += 1
+        penalty_cohesion += float(1 / BUDGET)
         parent_fitness = population_fitness[:NUM_POP]
         parents = [pf[0] for pf in parent_fitness]
 
@@ -46,8 +53,8 @@ def evolve(initial_mr, field_data, constants):
             copy_s1 = parents[i].copy()
             copy_s2 = parents[i + p_half].copy()
             (o1, o2) = crossover(copy_s1, copy_s2, XOVER_RATE)
-            o1 = mutate(o1, MUT_RATE, len(field_data), len(constants), len(list(field_data.values())[0]))
-            o2 = mutate(o2, MUT_RATE, len(field_data), len(constants), len(list(field_data.values())[0]))
+            o1 = mutate(o1, MUT_RATE, num_var_types, num_const_types, time_range)
+            o2 = mutate(o2, MUT_RATE, num_var_types, num_const_types, time_range)
 
             o1 = converter.convert_time(o1)
             o2 = converter.convert_time(o2)
@@ -59,9 +66,8 @@ def evolve(initial_mr, field_data, constants):
                 offspring.append(o2)
 
         population = parents + offspring
-        population_fitness = evaluator.evaluate_population(population, field_data, constants, penalty_cohesion)
+        population_fitness = evaluator.evaluate_population(population, file_list, constants, penalty_cohesion)
         population_fitness = sorted(population_fitness, key=lambda x: (x[5], x[1]), reverse=True)
-        penalty_cohesion += float(1 / BUDGET)
 
     return population_fitness[:NUM_POP]
 
