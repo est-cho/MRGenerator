@@ -54,7 +54,7 @@ def parse_mr_xml(file_name):
     return s_list
 
 
-def write_mr_to_csv(initial_mr_score, generated_mr_scores, ga_params, field_data, constants, output_file_name=None):
+def write_mr_to_csv(initial_mr_analysis, gen_mrs_analyses, ga_params, field_data, constants, output_file_name=None):
     if output_file_name is None:
         output_file_name = "output/evaluation.csv"
 
@@ -63,25 +63,35 @@ def write_mr_to_csv(initial_mr_score, generated_mr_scores, ga_params, field_data
 
         for p in ga_params:
             csv_writer.writerow(p)
+        # statement, sum_tp, sum_tn, score, scores_list
+        header_row = ['LPLV', 'LPOP', 'LPRV', 'RPLV', 'RPOP', 'RPRV', 'sum_tp', 'sum_tn', 'Score']
+        for k, v in (initial_mr_analysis[4]).items():
+            header_row.append(k + '-tp')
+            header_row.append(k + '-tn')
+            header_row.append(k + '-score')
 
-        csv_writer.writerow(['LPLV', 'LPOP', 'LPRV', 'RPLV', 'RPOP', 'RPRV', 'tp', 'tn', 'fp', 'fn', 'Score'])
-        ret = convert_statement_with_header(initial_mr_score[0], field_data, constants)
-        ret.append(initial_mr_score[1])
-        ret.append(initial_mr_score[2])
-        ret.append(initial_mr_score[3])
-        ret.append(initial_mr_score[4])
-        ret.append(initial_mr_score[5])
+        csv_writer.writerow(header_row)
+        ret = convert_statement_with_header(initial_mr_analysis[0], field_data, constants)
+        ret.append(initial_mr_analysis[1])
+        ret.append(initial_mr_analysis[2])
+        ret.append(initial_mr_analysis[3])
+        for k, v in (initial_mr_analysis[4]).items():
+            ret.append(v[0])
+            ret.append(v[1])
+            ret.append(v[2])
         csv_writer.writerow(ret)
 
-        csv_writer.writerow(['LPLV', 'LPOP', 'LPRV', 'RPLV', 'RPOP', 'RPRV', 'tp', 'tn', 'fp', 'fn', 'Score'])
+        csv_writer.writerow(header_row)
 
-        for m in generated_mr_scores:
+        for m in gen_mrs_analyses:
             ret = convert_statement_with_header(m[0], field_data, constants)
             ret.append(m[1])
             ret.append(m[2])
             ret.append(m[3])
-            ret.append(m[4])
-            ret.append(m[5])
+            for k, v in (m[4]).items():
+                ret.append(v[0])
+                ret.append(v[1])
+                ret.append(v[2])
             csv_writer.writerow(ret)
 
 

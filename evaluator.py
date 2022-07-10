@@ -12,14 +12,22 @@ PENALTY_COUPLING = 0.1
 def evaluate_population(population, file_list, constants, penalty_cohesion):
     pop_fit = []
     for p in population:
-        (sum_tp, sum_tn, all_score, score_dict) = calculate_score(p, file_list, constants, penalty_cohesion)
+        (sum_tp, sum_tn, all_score, score_dict) = calculate_score(p, file_list, constants, penalty_cohesion, False)
+        pop_fit.append((p, sum_tp, sum_tn, all_score))
+    return pop_fit
+
+
+def get_pop_detail(population, file_list, constants, penalty_cohesion):
+    pop_fit = []
+    for p in population:
+        (sum_tp, sum_tn, all_score, score_dict) = calculate_score(p, file_list, constants, penalty_cohesion, True)
         pop_fit.append((p, sum_tp, sum_tn, all_score, score_dict))
     return pop_fit
 
 
 # file_list: list of data filenames
 # constants: dictionary, key-value pair of constant header: value
-def calculate_score(statement, file_list, constants, penalty_cohesion):
+def calculate_score(statement, file_list, constants, penalty_cohesion, record_log_detail):
     score_dict = {}
     sum_tp = 0
     sum_tn = 0
@@ -103,8 +111,9 @@ def calculate_score(statement, file_list, constants, penalty_cohesion):
                 fn += 1
         sum_tp += tp
         sum_tn += tn
-        score = get_score(tp, tn, max_time, statement, list(fd), list(constants), penalty_cohesion)
-        score_dict[f] = (tp, tn, score)
+        if record_log_detail is True:
+            score = get_score(tp, tn, max_time, statement, list(fd), list(constants), penalty_cohesion)
+            score_dict[f] = (tp, tn, score)
 
     all_score = get_score(sum_tp, sum_tn, max_time, statement, list(fd), list(constants), penalty_cohesion)
     return sum_tp, sum_tn, all_score, score_dict

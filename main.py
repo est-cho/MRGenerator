@@ -3,6 +3,7 @@ import generator
 import converter
 import data_parser
 import evaluator
+import time
 
 DEFAULT_INIT_MR = "initial_mrs/initial_1.xml"
 
@@ -63,13 +64,16 @@ if __name__ == '__main__':
         out_file = DEFAULT_OUTPUT_PATH + str(idx) + ".csv"
 
         file_list = data_parser.get_filenames_from_path(DEFAULT_LOG_PATH)
+        fd = data_parser.read_field_data_file(file_list[0])
 
         # sum_tp, sum_tn, score, scores_list
-        initial_mr_analysis = evaluator.calculate_score(i_mr, file_list, constants, 0)
+        sum_tp, sum_tn, all_score, score_dict = evaluator.calculate_score(i_mr, file_list, constants, 0, True)
+        initial_mr_analysis = i_mr, sum_tp, sum_tn, all_score, score_dict
+        start_time = time.time()
         gen_mrs_analyses = generator.evolve(i_mr, file_list, constants)
-        print('done')
-        # converter.write_mr_to_csv(initial_mr_score, gen_mr_scores, generator.get_ga_params(), field_data,
-        #                           constants, out_file)
+        end_time = time.time()
+        print('Duratin: ', end_time-start_time)
+        converter.write_mr_to_csv(initial_mr_analysis, gen_mrs_analyses, generator.get_ga_params(), fd, constants, out_file)
 
 
     # print('================================================================================')

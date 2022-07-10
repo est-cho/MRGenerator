@@ -28,7 +28,11 @@ def evolve(initial_mr, file_list, constants):
     fd = data_parser.read_field_data_file(file_list[0])
     num_var_types = len(fd)
     num_const_types = len(constants)
-    time_range = len(list(fd.values())[0])
+    time_range_list = []
+    for f in file_list:
+        fd = data_parser.read_field_data_file(f)
+        time_range_list.append(len(list(fd.values())[0]))
+    time_range = min(time_range_list)
     penalty_cohesion = 0
 
     population = generate_population_from_seed(initial_mr, num_var_types, num_const_types, time_range)
@@ -67,9 +71,12 @@ def evolve(initial_mr, file_list, constants):
 
         population = parents + offspring
         population_fitness = evaluator.evaluate_population(population, file_list, constants, penalty_cohesion)
-        population_fitness = sorted(population_fitness, key=lambda x: (x[5], x[1]), reverse=True)
+        population_fitness = sorted(population_fitness, key=lambda x: (x[3], x[1]), reverse=True)
 
-    return population_fitness[:NUM_POP]
+    print('Optimized MRs. Getting details...')
+    population_fitness = population_fitness[:NUM_POP]
+    population = [pf[0] for pf in population_fitness]
+    return evaluator.get_pop_detail(population, file_list, constants, penalty_cohesion)
 
 
 def generate_population_from_seed(initial_mr, num_var_types, num_const_types, time_range):
