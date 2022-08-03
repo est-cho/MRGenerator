@@ -11,6 +11,8 @@ MUT_RATE = 0.2
 MUT_PROP_RATE = 1.0
 BUDGET = 10
 
+MUT_REPLACE_RATE = 1.0
+
 
 def get_ga_params():
     params = [['Population Size', str(NUM_POP)],
@@ -265,8 +267,8 @@ def mutate(individual, mutation_rate, num_var_types, num_const_types, time_range
 
 
 def mutate_prop(individual, mutation_rate, num_var_types, num_const_types, time_range):
-    is_replace = True
-    if is_replace:
+    is_replace = random.random()
+    if is_replace < MUT_REPLACE_RATE:
         do_mutate = random.random() < mutation_rate
         if do_mutate:
             individual.p_left = generate_proposition(num_var_types, num_const_types, time_range)
@@ -281,10 +283,10 @@ def mutate_prop(individual, mutation_rate, num_var_types, num_const_types, time_
 
 
 def mutate_val_op(individual, mutation_rate, num_var_types, num_const_types, time_range):
-    is_replace = True
+    is_replace = random.random()
     within_prop = True
     keep_value_order = True
-    if is_replace:
+    if is_replace < MUT_REPLACE_RATE:
         do_mutate = random.random() < mutation_rate
         if do_mutate:
             rand_op = random.randrange(len(MR.OPERATORS))
