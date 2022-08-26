@@ -78,7 +78,8 @@ def evolve(initial_mr, file_list, constants):
     print('Optimized MRs. Getting details...')
     population_fitness = population_fitness[:NUM_POP]
     population = [pf[0] for pf in population_fitness]
-    return evaluator.get_pop_detail(population, file_list, constants, penalty_cohesion)
+    # return evaluator.get_pop_detail(population, file_list, constants, penalty_cohesion)
+    return population
 
 
 def generate_population_from_seed(initial_mr, num_var_types, num_const_types, time_range):

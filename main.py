@@ -47,19 +47,38 @@ if __name__ == '__main__':
     fdd = data_parser.read_field_data_file(file_list[0])     # for retrieving data headers
 
     output_path = DEFAULT_OUTPUT_PATH + "config_" + DEFAULT_CONFIG
-    os.mkdir(output_path)
+    if not os.path.exists(output_path):
+        os.mkdir(output_path)
+
+    # Separate training and test data for one conifg
+    training_data = file_list[:30]
+    test_data = file_list[30:]
 
     idx = 0
     for i in range(1):
         start_time = time.time()
         print(i, ': Searching', end='')
         idx += 1
-        out_file = output_path + '/init_' + str(NUM_INIT_MR) + "_" + str(idx) + ".csv"
+        out_file = output_path + '/init_' + str(NUM_INIT_MR) + "_tr_" + \
+                   time.strftime('%m-%d_%H:%M:%S', time.localtime(start_time)) + ".csv"
+        test_out_file = output_path + '/init_' + str(NUM_INIT_MR) + "_test_" + \
+                        time.strftime('%m-%d_%H:%M:%S', time.localtime(start_time)) + ".csv"
 
-        sum_tp, sum_tn, all_score, score_dict = evaluator.calculate_score(i_mr, file_list, constants, 0, True)
+        sum_tp, sum_tn, all_score, score_dict = evaluator.calculate_score(i_mr, training_data, constants, 0, True)
         initial_mr_analysis = i_mr, sum_tp, sum_tn, all_score, score_dict
 
-        gen_mrs_analyses = generator.evolve(i_mr, file_list, constants)
+        gen_mrs = generator.evolve(i_mr, training_data, constants)
+
         end_time = time.time()
         print('Duration: ', end_time-start_time)
-        converter.write_mr_to_csv(initial_mr_analysis, gen_mrs_analyses, generator.get_ga_params(), fdd, constants, out_file)
+        gen_mrs_analyses = evaluator.get_pop_detail(gen_mrs, training_data, constants, 1)
+        converter.write_mr_to_csv(initial_mr_analysis, gen_mrs_analyses, generator.get_ga_params(), fdd, constants,
+                                  out_file)
+
+        # Evaluate against test data
+        test_sum_tp, test_sum_tn, test_all_score, test_score_dict = evaluator.calculate_score(i_mr, test_data,
+                                                                                              constants, 0, True)
+        test_initial_mr_analysis = i_mr, test_sum_tp, test_sum_tn, test_all_score, test_score_dict
+        test_gen_mrs_analyses = evaluator.get_pop_detail(gen_mrs, test_data, constants, 1)
+        converter.write_mr_to_csv(test_initial_mr_analysis, test_gen_mrs_analyses, generator.get_ga_params(), fdd,
+                                  constants, test_out_file)
