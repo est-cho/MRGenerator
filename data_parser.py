@@ -4,8 +4,8 @@ import glob
 VAL_FIELD_TYPE = ['color', 'angle', 'distance', 'speed']
 
 
-def get_filenames_from_path(data_path):
-    return glob.glob(data_path + "log*.csv")
+def get_filenames_from_path(data_path, config):
+    return glob.glob(data_path + "log_" + config + "*.csv")
 
 
 def read_field_data_path(data_path):
